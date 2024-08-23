@@ -54,11 +54,12 @@ brand = ttk.Combobox(win,
              values=["Apple", "Samsung", "Nokia"],
              width= 20,
              state="readonly"
-             ).place(x=80, y=20)
-brand.bind("<<ComboboxSelected>>", selected())
+             )
+brand.place(x=80, y=20)
+brand.bind("<<ComboboxSelected>>", selected)
 
 ttk.Label(win, text="Model").place(x=20, y=60)
-model = ttk.StringVar()
+model = tkinter.StringVar()
 ttk.Entry(win, textvariable=model,).place(x=80, y=60)
 
 ttk.Label(win, text="Color",
@@ -67,14 +68,15 @@ color = ttk.Combobox(win,
              values=["White", "Black", "Red", "Blue"],
              width= 20,
              state="readonly"
-             ).place(x=80, y=100)
-color.bind("<<ComboboxSelected>>", color_selected())
+             )
+color.place(x=80, y=100)
+color.bind("<<ComboboxSelected>>", color_selected)
 
 ttk.Label(win, text="Option").place(x=20, y=140)
-option_glass = ttk.BooleanVar()
+option_glass = tkinter.BooleanVar()
 ttk.Checkbutton(win, text="Glass", variable=option_glass).place(x=80, y=140)
 
-option_memory = ttk.BooleanVar()
+option_memory = tkinter.BooleanVar()
 ttk.Checkbutton(win, text="Memory", variable=option_memory).place(x=80, y=180)
 
 
