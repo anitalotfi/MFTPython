@@ -2,11 +2,65 @@ import tkinter
 import tkinter.ttk as ttk
 import tkinter.messagebox as msg
 
+product_list = []
+
 def add_click():
+    product_name = product.get()
+    product_price = price.get()
+    product_count = int(count.get())
+    transaction_type = inv.get()
+    person_name = person.get()
+
+    # Check if the product already exists in the list
+    found = False
+    for item in product_list:
+        if item[0] == product_name:
+            found = True
+            if transaction_type == "Income":
+                item[2] += product_count
+                color = "green"
+            elif transaction_type == "Outcome":
+                if item[2] >= product_count:
+                    item[2] -= product_count
+                    color = "red"
+                else:
+                    msg.showerror("Error", "Not enough product in stock for this outcome.")
+                    return
+
+            # Update the row in the table
+            for row in table.get_children():
+                row_data = table.item(row)["values"]
+                if row_data[0] == product_name:
+                    table.item(row, values=(product_name, product_price, item[2], person_name), tags=('colored_row',))
+                    table.tag_configure('colored_row', background=color)
+                    break
+            break
+
+    if not found:
+        if transaction_type == "Income":
+            product_list.append([product_name, product_price, product_count, person_name])
+            color = "green"
+        else:
+            msg.showerror("Error", "Product doesn't exist.")
+            return
+
+        # Add the new product to the table
+        table.insert("", "end", values=(product_name, product_price, product_count, person_name), tags=('colored_row',))
+        table.tag_configure('colored_row', background=color)
+
+    msg.showinfo("Transaction Complete", f"Product '{product_name}' has been processed successfully.")
+    reset_form()
 
 def selected(event):
     select_option = (inv.get())
-    print("You selected :", select_option)
+    print("You selected:", select_option)
+
+def reset_form():
+    product.set("")
+    price.set("")
+    count.set("")
+    person.set("")
+    inv.set("")
 
 win = tkinter.Tk()
 win.title("Inventory")
@@ -52,7 +106,8 @@ table.column(4, width=100)
 
 table.place(x=230, y=20)
 
+reset_
 
-# ttk.Button(win, text="Sell", width=10, command=sell_click).place(x=70, y=240)
+ttk.Button(win, text="Process", width=10, command=add_click).place(x=70, y=240)
 
 win.mainloop()
