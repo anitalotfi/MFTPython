@@ -106,7 +106,7 @@ table.column(4, width=100)
 
 table.place(x=230, y=20)
 
-reset_
+reset_form()
 
 ttk.Button(win, text="Process", width=10, command=add_click).place(x=70, y=240)
 
